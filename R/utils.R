@@ -67,8 +67,8 @@ valid_flash_cards <- function(.data, question = question,
     msg = glue::glue("`.data` must contain the columns `{question_name}` and `{answer_name}`") 
   )
   
-  out <- .data %>% 
-    dplyr::select(!!question, !!answer) %>% 
+  out <- .data |>
+    dplyr::select(!!question, !!answer) |>
     dplyr::mutate_all(as.character)
   
   return(out)
@@ -102,8 +102,8 @@ get_valid_decks <- function(envir = .GlobalEnv, question = question, answer = an
     if (is_valid_flash_cards(obj, question = !!question, answer = !!answer, clean = clean)){
       return(obj)
     } else return(NULL)
-  }) %>% 
-    purrr::set_names(all_objs) %>% 
+  }) |>
+    purrr::set_names(all_objs) |>
     purrr::discard(is.null)
   
   attempt::stop_if(length(valid_objects) == 0, msg = "No valid flash card decks in global environment! Valid flash card decks must be data.frames with a `question` and `answer` column!")
@@ -116,7 +116,7 @@ get_valid_decks <- function(envir = .GlobalEnv, question = question, answer = an
   
   user_select_txt <- purrr::map2(names(valid_objects), 1:length(valid_objects), ~{
     glue::glue("{.y}: {.x}")
-  }) %>% 
+  }) |>
     glue::glue_collapse(sep = "\n")
   
   user_select_txt <- glue::glue(

@@ -5,31 +5,13 @@
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
-  options(shiny.useragg = TRUE)
+  # options(shiny.useragg = TRUE)
 
-  thematic_shiny(font = "auto")
+  # thematic_shiny(font = "auto")
 
   shiny::tagList(
-    ### Import Google Sign In JavaScript Requirements ###
-    ### Enable to add authentication ###
-    tags$head(
-      # tags$head(tags$link(rel = "shortcut icon", href = "favicon.ico")),
-      # tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
-      disconnectMessage(
-        text = "Something went wrong! Try refreshing the page.",
-        refresh = "Refresh",
-        background = "#000000",
-        colour = "#FFFFFF",
-        refreshColour = "#2C97F5",
-        overlayColour = "#000000",
-        overlayOpacity = 0.5,
-        width = 450,
-        top = "center",
-        size = 24,
-        css = ""
-      )
-    ),
-    page_navbar(
+    golem_add_external_resources(),
+    bslib::page_navbar(
       ### Theme ----
       theme = bslib::bs_theme(
         # bg = "#FFFFFF", fg = "#46494f",
@@ -41,7 +23,7 @@ app_ui <- function(request) {
         heading_font = bslib::font_google("Fira Sans")
       ),
       window_title = "QuizzyDeck",
-      title = tags$img(src = "quizzy_deck-removebg.png", height = "110", width = "120"),
+      title = tags$img(src = "img/quizzy_deck.webp", height = "110", width = "120"),
       underline = TRUE,
       bg = "#a9d3e6",
       id = "inNavPage",
@@ -50,49 +32,49 @@ app_ui <- function(request) {
         style = "display:block; overflow:scroll;",
         open = "desktop",
         title = tags$h3(tags$b("Set Flashcards")),
-        card_body(
+        bslib::card_body(
           min_height = "1000px",
-          selectInput(
+          shiny::selectInput(
             inputId = "question1",
             label = h5("Is this a question?"),
             selected = "",
             choices = c("", "Yes", "No"),
             width = "100%"
           ),
-          fileInput("fileUpload", "Choose a file to upload the data you want to see", accept = ".csv")
+          fileInput("fileUpload", "Choose a file to upload your flashcards", accept = ".csv"),
+          textInput(label = "Provide a link that you would like summarised as flashcards",
+                    inputId = "descriptionFlashcard"),
+          actionButton(inputId = "actionFlashcard", label = "Make Cards!")
         )
       ),
       ### Main Page ###
-      nav_panel(
+      bslib::nav_panel(
         title = "Main Page",
         icon = icon("r-project"),
         align = "left",
-        card(
+        bslib::card(
           mod_gen_card_ui("gen_card_ui_1"),
-          plotOutput("plot1") |>
-            shinycssloaders::withSpinner(color = "#04abeb", type = 7)
-        ),
-        tableOutput("contents") |>
-          shinycssloaders::withSpinner(color = "#04abeb", type = 7)
+          full_screen = TRUE
+        )
       ),
-      nav_menu(
+      bslib::nav_menu(
         title = "More",
         align = "right",
-        nav_item(
+        bslib::nav_item(
           tags$a(
             shiny::icon("database"), "My Website",
             href = "https://duncangates.me",
             target = "_blank"
           )
         ),
-        nav_item(
+        bslib::nav_item(
           tags$a(
             shiny::icon("info-circle"), "Tutorial",
             href = "https://www.youtube.com/watch?v=o0CEkx0r5yY",
             target = "_blank"
           )
         ),
-        nav_item(
+        bslib::nav_item(
           tags$a(
             shiny::icon("commenting"), "Give Duncan Feedback",
             href = "https://teachinglab.iad1.qualtrics.com/jfe/form/SV_0Bqu3SUziXrmvlA?Source=template_dashboard",
@@ -130,7 +112,6 @@ golem_add_external_resources <- function(addin = FALSE) {
       app_title = "flashcaRd"
     ),
     shinyjs::useShinyjs(),
-    shinyalert::useShinyalert(),
     shiny::tags$link(href = "http://fonts.googleapis.com/css?family=Fira+Sans", rel = "stylesheet", type = "text/css"),
     shiny::tags$link(href = "https://fonts.googleapis.com/css?family=Open+Sans&display=swap", rel = "stylesheet"),
     style,

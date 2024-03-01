@@ -9,13 +9,12 @@ golem::detach_all_attached()
 golem::document_and_reload()
 
 # Run the application
-# flash_cards(.data = shinyFlash::adv_r_deck)
+# flash_cards(.data = flashcaRd::adv_r_deck)
 flash_cards(type = "shiny")
 
 flash_local(.data = flashcaRd::adv_r_deck)
 
-flash_addin_envir_custom()
-
+# flashcaRd:::flash_addin_envir_custom()
 
 data("adv_r_deck")
 flash_addin_envir()

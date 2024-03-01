@@ -10,25 +10,20 @@ Imports:
     config,
     golem,
     shiny,
-    processx,
     attempt,
     glue,
-    htmltools,
     dplyr,
     readr,
     readxl,
     janitor,
     shinyjs,
     shinyalert,
-    waiter,
-    tidyr,
-    magrittr,
     miniUI,
     crayon,
     rstudioapi,
     purrr,
     bslib,
-    shinycssloaders
+    pkgload
 Depends:
     R (>= 4.0.0)
 Encoding: UTF-8

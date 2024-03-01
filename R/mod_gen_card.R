@@ -57,9 +57,9 @@ mod_gen_card_server <- function(input, output, session, rv,
   
   card_html <- shiny::reactive({
     shiny::req(rv$dat)
-    rv$dat %>% 
-      dplyr::select(question = !!question, answer = !!answer) %>% 
-      dplyr::group_nest(question, .key = "answer") %>% 
+    rv$dat |>
+      dplyr::select(question = !!question, answer = !!answer) |>
+      dplyr::group_nest(question, .key = "answer") |>
       dplyr::mutate(
         question = purrr::map(question, ~{
           shiny::tagList(
